@@ -152,8 +152,33 @@ Empleado la función `summarise y across`, calcula la media, la desviación típ
 - Compara los resultados para los dos conjuntos en la variable `Petal.Length`.
 
 ```{r , include = TRUE}
+estadisticos_clean_iris <- clean_iris %>%
+  summarise(across(where(is.numeric),
+    list(
+    media = mean,
+    desviacion_tipica = sd,
+    mediana = median,
+    madm = function(x) 1.4826 * median(abs(x - median(x))),
+    iqr = IQR
+)))
+
+estadisticos_dirty_iris <- dirty_iris %>%   
+  summarise(across(where(is.numeric),     
+    list(     
+      media = ~ mean(.x, na.rm = TRUE),     
+      desviacion_tipica = ~ sd(.x, na.rm = TRUE),     
+      mediana = ~ median(.x, na.rm = TRUE),     
+      madm = ~ 1.4826 * median(abs(.x - median(.x, na.rm = TRUE)), na.rm = TRUE),     
+      iqr = ~ IQR(.x, na.rm = TRUE) 
+    )
+  ))
+
+estadisticos_clean_iris
+estadisticos_dirty_iris
 
 ```
+
+Comprando ambos resultados, podemos observar que la media y la desviación típica son más sensibles a la presencia de outliers, mientras que la mediana y el MADM son más robustos. Esto se refleja en los valores obtenidos para la variable `Sepal.Length`, donde la media y la desviación típica presentan diferencias notables.
 
 ## Ejercicio 5: Métodos de detección de outliers
 
