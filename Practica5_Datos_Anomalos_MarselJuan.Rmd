@@ -109,8 +109,16 @@ Reemplaza, en todas las columnas numéricas del data frame `dirty_iris`, los val
 
 ```{r Solucion ejercicio 2, include=TRUE, echo=TRUE, eval=TRUE, results=TRUE}
 # DEBEMOS ELIMINAR TAMBIEN LOS VALROES IGUALES A CERO YA QUE SE TRATA DE LONGITUDES DE PARTES DE UNA FLOR. NO PUEDEN SER O
+dirty_iris_finite <- dirty_iris %>% 
+  mutate(
+    across(where(is.numeric), function(x) {
+      x[x <= 0] <- NA
+      x[is.infinite(x)] <- NA
+      return(x)
+    })
+  )
 
-
+dirty_iris_finite     
 ```
 
 ## Ejercicio 3: Valores perdidos y observaciones completas
@@ -119,7 +127,7 @@ Reemplaza, en todas las columnas numéricas del data frame `dirty_iris`, los val
 - Emplea después la función `na.omit` para quedarnos solo con las filas con datos completos en un nuevo data frame `clean_iris`.
 
 ```{r Solucion ejercicio 3, include=TRUE, echo=TRUE, eval=TRUE, results=TRUE}
-
+complete.cases(dirty_iris_finite)
 ```
 
 # Detección de outliers univariante
