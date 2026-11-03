@@ -118,7 +118,7 @@ dirty_iris_finite <- dirty_iris %>%
     })
   )
 
-dirty_iris_finite     
+head(dirty_iris_finite)
 ```
 
 ## Ejercicio 3: Valores perdidos y observaciones completas
@@ -127,7 +127,12 @@ dirty_iris_finite
 - Emplea después la función `na.omit` para quedarnos solo con las filas con datos completos en un nuevo data frame `clean_iris`.
 
 ```{r Solucion ejercicio 3, include=TRUE, echo=TRUE, eval=TRUE, results=TRUE}
-complete.cases(dirty_iris_finite)
+num_registros_completos <- sum(complete.cases(dirty_iris_finite))
+porcentaje_registros_completos <- (num_registros_completos / nrow(dirty_iris_finite)) * 100
+clean_iris <- na.omit(dirty_iris_finite)
+num_registros_completos
+porcentaje_registros_completos
+head(clean_iris)
 ```
 
 # Detección de outliers univariante
