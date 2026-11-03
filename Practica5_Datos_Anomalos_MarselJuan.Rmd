@@ -2,15 +2,15 @@
 title: "Práctica 5. Datos Anómalos"
 subtitle: "Análisis Exploratorio de Datos, Máster en Ciencia de Datos - UV"
 output:
+  pdf_document:
+    toc: yes
+    toc_depth: 3
+    number_sections: no
   html_document:
     echo: yes
     number_sections: no
     theme: lumen
     toc: yes
-  pdf_document:
-    toc: yes
-    toc_depth: 3
-    number_sections: no
 ---
 
 ```{r setup, cache = F, echo = F, message = F, warning = F, tidy = F}
@@ -259,9 +259,21 @@ En los métodos de detección de outliers analizados, examina los resultados com
 - Número de outliers detectados por método.
 - Los valores etiquetados como outliers (ordenados de menor a mayor).
 
+```{r}
+help(summarise)
+```
+
 ```{r Solucion ejercicio 7, include=TRUE, echo=TRUE, eval=TRUE, results=TRUE}
 
 
+numero_outliers_metodo <- deteccion_outliers %>%
+  summarise(
+    outlier_sigma = sum(outlier_sigma, na.rm = TRUE),
+    outlier_hampel = sum(outlier_hampel, na.rm = TRUE),
+    outlier_boxplot = sum(outlier_boxplot, na.rm = TRUE),
+    outlier_percentil = sum(outlier_percentil, na.rm = TRUE)
+  )
+numero_outliers_metodo
 
 ```
 
